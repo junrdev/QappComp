@@ -8,6 +8,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -15,6 +16,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.staggeredgrid.LazyHorizontalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
@@ -31,8 +35,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.junrdev.qappcomp.components.FilterElement
 import com.junrdev.qappcomp.ui.theme.Pink40
 import com.junrdev.qappcomp.ui.theme.PurpleGrey40
 
@@ -49,6 +56,11 @@ fun HomeScreen(navController: NavController) {
         "Bash",
         "Windows",
         "Cloud",
+        "Programming",
+        "PhP",
+        "MySql",
+        "cmd",
+        "Docker",
         "Node Js"
     );
     
@@ -68,55 +80,24 @@ fun HomeScreen(navController: NavController) {
             
             Box(modifier = Modifier
                 .border(width = 1.dp, color = Color.LightGray)
+                .clip(shape = RoundedCornerShape(CornerSize(50.dp)))
                 .fillMaxWidth(),
-                contentAlignment = Alignment.Center
             ) {
                 //TODO: implement a lazy grid
 
-                Column(modifier = Modifier) {
-                    LazyRow {
-                        items(filters){
-                            FilterElement(filterText = it)
-                        } 
-                    }
-                    Spacer(modifier =Modifier.height(10.dp))
-                    LazyRow {
+                LazyVerticalGrid(columns = GridCells.Fixed(2), contentPadding = PaddingValues(5.dp), modifier = Modifier.padding(10.dp)){
                     items(filters){
                         FilterElement(filterText = it)
                     }
                 }
-                    Spacer(modifier =Modifier.height(10.dp))
-                    LazyRow {
-                    items(filters){
-                        FilterElement(filterText = it)
-                    }
-                }
-                }
+
             }
-            
-            FilterElement(filterText = "Submit", modifier = Modifier.background(PurpleGrey40))
+
+            //submit filters button
+            FilterElement(filterText = "Submit", modifier = Modifier)
 
         }
 
     }
 }
 
-@Composable
-fun FilterElement(modifier: Modifier=Modifier, filterText: String, onclick: () -> Unit={}) {
-    Box (
-        modifier = Modifier
-    ){
-        Surface(
-            modifier = Modifier
-                .padding(12.dp)
-                .clickable { onclick() },
-            shape = CircleShape.copy(CornerSize(10.dp)),
-            shadowElevation = 5.dp
-        ) {
-            Text(
-                text = filterText, modifier = Modifier
-                    .padding(12.dp)
-            )
-        }
-    }
-}
